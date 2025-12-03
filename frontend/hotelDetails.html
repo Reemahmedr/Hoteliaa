@@ -505,8 +505,114 @@
     <script src="cart.js"></script>
     <script src="hotelDetails.js"></script>
 
-    <!-- <script>
-      (function () {
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the date input elements
+        const checkInInput = document.querySelectorAll('input[type="date"]')[0];
+        const checkOutInput =
+          document.querySelectorAll('input[type="date"]')[1];
+
+        // Set minimum date to today for both inputs
+        const today = new Date().toISOString().split("T")[0];
+        checkInInput.min = today;
+        checkOutInput.min = today;
+
+        // Function to show custom alert
+        function showDateAlert(message) {
+          // Remove any existing alerts
+          const existingAlert = document.getElementById("dateAlert");
+          if (existingAlert) {
+            existingAlert.remove();
+          }
+
+          // Create alert element
+          const alertDiv = document.createElement("div");
+          alertDiv.id = "dateAlert";
+          alertDiv.className =
+            "p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200 fixed top-20 left-1/2 transform -translate-x-1/2 z-50 shadow-lg animate-slide-down";
+          alertDiv.setAttribute("role", "alert");
+          alertDiv.innerHTML = `
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <i class="fas fa-exclamation-circle mr-2 text-red-600"></i>
+          <span class="font-medium">Date Error!</span> ${message}
+        </div>
+        <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-red-800 hover:text-red-900">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    `;
+
+          // Insert at the top of the body
+          document.body.insertBefore(alertDiv, document.body.firstChild);
+
+          // Auto-remove after 5 seconds
+          setTimeout(() => {
+            if (alertDiv.parentElement) {
+              alertDiv.style.opacity = "0";
+              alertDiv.style.transition = "opacity 0.3s";
+              setTimeout(() => alertDiv.remove(), 300);
+            }
+          }, 5000);
+        }
+
+        // When check-in date changes, update check-out minimum date
+        checkInInput.addEventListener("change", function () {
+          const checkInDate = this.value;
+
+          if (checkInDate) {
+            // Set checkout minimum to the day after check-in
+            const checkInDateObj = new Date(checkInDate);
+            checkInDateObj.setDate(checkInDateObj.getDate() + 1);
+            const minCheckOut = checkInDateObj.toISOString().split("T")[0];
+
+            checkOutInput.min = minCheckOut;
+
+            // If checkout is before or same as check-in, reset it
+            if (checkOutInput.value && checkOutInput.value <= checkInDate) {
+              checkOutInput.value = "";
+              showDateAlert(
+                "Check-out date must be after check-in date. Please select a valid date."
+              );
+            }
+          }
+        });
+
+        // When check-out date changes, validate it's after check-in
+        checkOutInput.addEventListener("change", function () {
+          const checkInDate = checkInInput.value;
+          const checkOutDate = this.value;
+
+          if (checkInDate && checkOutDate) {
+            if (checkOutDate <= checkInDate) {
+              this.value = "";
+              showDateAlert(
+                "Check-out date must be after check-in date. Please select a valid date."
+              );
+            }
+          }
+        });
+
+        // Form submission validation
+        const searchForm = document.querySelector("form");
+        if (searchForm) {
+          searchForm.addEventListener("submit", function (e) {
+            const checkInDate = checkInInput.value;
+            const checkOutDate = checkOutInput.value;
+
+            if (checkInDate && checkOutDate) {
+              if (checkOutDate <= checkInDate) {
+                e.preventDefault();
+                showDateAlert(
+                  "Check-out date must be after check-in date. Please correct the dates and try again."
+                );
+                return false;
+              }
+            }
+          });
+        }
+      });
+    </script>      (function () {
         // Wait for the page to be fully loaded
         const initDateValidation = () => {
           const checkInInput = document.getElementById("checkInDate");
