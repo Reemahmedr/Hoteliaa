@@ -14,7 +14,7 @@ function registerUser(newUser) {
     .catch((err) => console.log(err));
 }
 
-function loginUser(email, password) {
+function loginUser(email, password ,code = null) {
   fetch(`http://localhost:3001/users?email=${email}`)
     .then((res) => res.json())
     .then((users) => {
@@ -25,9 +25,10 @@ function loginUser(email, password) {
 
       const user = users[0];
 
-      if (user.password === password) {
+      if (user.password === password || user.adminAccessCode === code) {
+        
+        // login success
         showToast("Login Successful!", "success");
-
         localStorage.setItem("user", JSON.stringify(user));
 
         setTimeout(() => {
@@ -40,10 +41,44 @@ function loginUser(email, password) {
     .catch((err) => console.log(err));
 }
 
+// function adminLogin(email, password, code) {
+//   fetch(`http://localhost:3001/users?email=${email}`)
+//     .then((res) => res.json())
+//     .then((users) => {
+//       if (users.length === 0) {
+//         showToast("Email not found!", "error");
+//         return;
+//       }
+
+//       const user = users[0];
+
+//       if (user.password === password && user.adminAccessCode === code) {
+        
+//         // login success
+//         showToast("Login Successful!", "success");
+//         localStorage.setItem("user", JSON.stringify(user));
+
+//         setTimeout(() => {
+//           window.location.href = "home.html";
+//         }, 1200);
+//       } else {
+//         showToast("Wrong password!", "error");
+//       }
+//     })
+//     .catch((err) => console.log(err));
+// }
+
+
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast-default");
   const text = document.getElementById("toast-msg");
   const icon = document.getElementById("toast-icon");
+
+  // If toast elements are not present, don't throw — just log and return
+  if (!toast || !text || !icon) {
+    console.warn("Toast elements not found in DOM. Skipping toast display.");
+    return;
+  }
 
   text.textContent = message;
 
@@ -62,5 +97,6 @@ function showToast(message, type = "success") {
 
 function hideToast() {
   const toast = document.getElementById("toast-default");
+  if (!toast) return;
   toast.classList.add("hidden");
 }

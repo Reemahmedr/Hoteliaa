@@ -8,7 +8,14 @@ form.addEventListener("submit", function (e) {
     email: document.getElementById("email").value,
     phone: document.getElementById("phone").value,
     password: document.getElementById("password").value,
+    adminAccessCode: document.getElementById("adminCode").value,
   };
 
+  if(!newUser.adminAccessCode) {
+    newUser.adminAccessCode = "";
+  } else {
+    newUser.adminAccessCode =newUser.adminAccessCode.value;
+  }
+
   registerUser(newUser);
-});
+}); 
