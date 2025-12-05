@@ -53,19 +53,29 @@ function loadUserProfile() {
   document.getElementById("memberSince").textContent = memberSince;
 }
 
-// Load booking history from localStorage
-function loadBookingHistory() {
-  // Get all bookings from localStorage
-  const bookingsStr = localStorage.getItem("userBookings");
-
-  if (bookingsStr) {
-    try {
-      allBookings = JSON.parse(bookingsStr);
-    } catch (e) {
-      allBookings = [];
-    }
+// Load booking history from database
+async function loadBookingHistory() {
+  if (!currentUser || !currentUser.id) {
+    console.log("no logged in user");
+    return;
   }
 
+  try {
+    const response = await fetch(
+      `http://localhost:3001/bookings?userId=${currentUser.id}`
+    );
+    if (response.ok) {
+      allBookings = await response.json();
+    } else {
+      console.error("Failed to fetch bookings");
+      allBookings = [];
+    }
+  } catch (error) {
+    console.error("Error loading bookings:", error);
+    allBookings = [];
+  }
+
+<<<<<<< HEAD
   // Filter bookings for current user
   if (currentUser && currentUser.email) {
     allBookings = allBookings.filter(
@@ -76,9 +86,9 @@ function loadBookingHistory() {
   // Add mock data if no bookings exist (for demonstration)
 
   // Calculate statistics
+=======
+>>>>>>> 62d28c0 (last version yarab y3ny)
   calculateStatistics();
-
-  // Display bookings
   displayBookings();
 }
 
@@ -244,6 +254,54 @@ function displayBookings() {
     `;
     })
     .join("");
+}
+
+async function cancelBooking(bookingId, confirmationNumber) {
+  const confirm = confirm(
+    `Are you sure you want to cancel booking ${confirmationNumber}?`
+  );
+  if (!confirm) return;
+
+  try {
+    // Fetch existing booking
+    const response = await fetch(`http://localhost:3001/bookings/${bookingId}`);
+    if (!response.ok) {
+      return showToast("Failed to fetch booking details.", "error");
+    }
+
+    const booking = await response.json();
+
+    const updatedBooking = {
+      ...booking,
+      status: "cancelled",
+      cancellationDate: new Date().toISOString(),
+      cancellationReason: "Cancelled by user",
+    };
+
+    // Update booking in database
+    const updatedResponse = await fetch(
+      `http://localhost:3001/bookings/${bookingId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedBooking),
+      }
+    );
+
+    if (updatedResponse.ok) {
+      showToast("Booking cancelled successfully.", "success");
+
+      // Refresh booking history to reflect changes
+      await loadBookingHistory();
+    } else {
+      showToast("Failed to cancel booking.", "error");
+    }
+  } catch (error) {
+    console.error("Error cancelling booking:", error);
+    showToast("An error occurred while cancelling the booking.", "error");
+  }
 }
 
 // Filter bookings

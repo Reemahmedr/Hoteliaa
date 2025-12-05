@@ -8,12 +8,20 @@ function registerUser(newUser) {
   })
     .then((res) => res.json())
     .then((data) => {
+<<<<<<< HEAD
       console.log("User registered:", data);
       window.location.href = "./frontend/login.html";
+=======
+      setTimeout(() => {
+        showToast("Registered Successfully!", "success");
+        window.location.href = "login.html";
+      }, 200);
+>>>>>>> 62d28c0 (last version yarab y3ny)
     })
     .catch((err) => console.log(err));
 }
 
+<<<<<<< HEAD
 function loginUser(email, password ,code = null) {
   fetch(`http://localhost:3001/users?email=${email}`)
     .then((res) => res.json())
@@ -23,6 +31,15 @@ function loginUser(email, password ,code = null) {
         return;
       }
 
+=======
+async function loginUser(email, password, code = "") {
+  try {
+    // check normal users
+    const userRes = await fetch(`http://localhost:3001/users?email=${email}`);
+    const users = await userRes.json();
+
+    if (users.length > 0) {
+>>>>>>> 62d28c0 (last version yarab y3ny)
       const user = users[0];
 
       if (user.password === password || user.adminAccessCode === code) {
@@ -50,7 +67,15 @@ function adminLogin(email, password, code) {
         return;
       }
 
+<<<<<<< HEAD
       const user = users[0];
+=======
+    // check admin users
+    const adminRes = await fetch(
+      `http://localhost:3001/adminUsers?email=${email}`
+    );
+    const admins = await adminRes.json();
+>>>>>>> 62d28c0 (last version yarab y3ny)
 
       if (user.password === password && user.adminAccessCode === code) {
         
@@ -64,10 +89,18 @@ function adminLogin(email, password, code) {
       } else {
         showToast("Wrong password!", "error");
       }
+<<<<<<< HEAD
     })
     .catch((err) => console.log(err));
-}
+=======
+    }
 
+    showToast("Incorrect Email / Password / Code!", "error");
+  } catch (err) {
+    console.log(err);
+  }
+>>>>>>> 62d28c0 (last version yarab y3ny)
+}
 
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast-default");

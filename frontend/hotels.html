@@ -4,20 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hotelia</title>
-    <link rel="icon" type="image/png" href="../image/travel-agency.png">
+    <link rel="icon" type="image/png" href="../image/travel-agency.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
   </head>
-    <style>
+  <style>
     html {
-  scroll-behavior: smooth;
-}
-
+      scroll-behavior: smooth;
+    }
   </style>
-
 
   <body class="bg-gray-50">
     <!-- NAVBAR -->
@@ -25,20 +23,32 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
-            <img src="../image/travel-agency.png" alt="Hotelia" class="w-10 h-10">
+            <img
+              src="../image/travel-agency.png"
+              alt="Hotelia"
+              class="w-10 h-10"
+            />
             <span class="text-2xl font-bold text-[#003262]">Hotelia</span>
           </div>
           <div class="hidden md:flex space-x-8">
-            <a href="home.html" class="text-[#003262] hover:text-[#0047AB] font-medium"
+            <a
+              href="home.html"
+              class="text-[#003262] hover:text-[#0047AB] font-medium"
               >Home</a
             >
-            <a href="hotels.html" class="text-[#003262] hover:text-[#0047AB] font-medium"
+            <a
+              href="hotels.html"
+              class="text-[#003262] hover:text-[#0047AB] font-medium"
               >Hotels</a
             >
-            <a href="about.html" class="text-[#003262] hover:text-[#0047AB] font-medium"
-              >About</a
+            <a
+              href="about.html"
+              class="text-[#003262] hover:text-[#0047AB] font-medium"
+              >About Me</a
             >
-            <a href="#footer" class="text-[#003262] hover:text-[#0047AB] font-medium"
+            <a
+              href="#footer"
+              class="text-[#003262] hover:text-[#0047AB] font-medium"
               >Contact</a
             >
           </div>
@@ -51,7 +61,7 @@
               <i class="fas fa-shopping-cart text-2xl"></i>
               <span
                 id="cartCount"
-                class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold"
+                class="absolute -top-2 -right-2 bg-[#0066FF] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold"
                 style="display: none"
                 >0</span
               >
@@ -62,6 +72,7 @@
     </nav>
 
     <!-- HOTELS LIST -->
+<<<<<<< HEAD
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <!-- Hotel Card 1 -->
       <div
@@ -176,6 +187,23 @@
           </div>
         </div>
       </div>
+=======
+    <div
+      id="hotelsGrid"
+      class="grid mx-[30px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <!-- Loading state -->
+      <div
+        id="hotelsGrid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        <div class="col-span-full text-center py-12">
+          <i class="fas fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+          <p class="text-gray-600">Loading hotels...</p>
+        </div>
+      </div>
+    </div>
+>>>>>>> 62d28c0 (last version yarab y3ny)
 
       <!-- Hotel Card 3 -->
       <div
@@ -416,7 +444,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div class="flex items-center mb-4">
-              <img src="../image/light.png" alt="Hotelia" class="w-10 h-10">
+              <img src="../image/light.png" alt="Hotelia" class="w-10 h-10" />
               <span class="text-2xl font-bold">Hotelia</span>
             </div>
             <p class="text-gray-300">
@@ -466,5 +494,9 @@
     </footer>
 
     <script src="cart.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="home.js"></script>
+>>>>>>> 62d28c0 (last version yarab y3ny)
   </body>
 </html>
